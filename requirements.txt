@@ -27,7 +27,7 @@ Jinja2==3.1.2
 joblib==1.3.2
 jsonschema==4.19.0
 jsonschema-specifications==2023.7.1
-keras==2.15.0
+## keras removed (optional, only for legacy local runs)
 kiwisolver==1.4.5
 libclang==16.0.6
 Markdown==3.4.4
@@ -68,9 +68,10 @@ streamlit==1.38.0
 tenacity==8.2.3
 tensorboard==2.15.2
 tensorboard-data-server==0.7.1
-tensorflow==2.15.0
-tensorflow-estimator==2.15.0
-tensorflow-io-gcs-filesystem==0.31.0
+## TensorFlow stack removed for deploy compatibility on Python 3.13
+## tensorflow==2.15.0
+## tensorflow-estimator==2.15.0
+## tensorflow-io-gcs-filesystem==0.31.0
 termcolor==2.3.0
 toml==0.10.2
 toolz==0.12.0
@@ -87,4 +88,4 @@ wrapt==1.14.1
 zipp==3.16.2
 transformers==4.44.2
 safetensors==0.4.3
-torch==2.2.2
+torch

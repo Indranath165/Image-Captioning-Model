@@ -3,9 +3,6 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
 import io
 import pickle
-import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 
 # Set custom web page title
 st.set_page_config(page_title="Caption Generator App", page_icon="📷")
@@ -18,18 +15,22 @@ st.markdown(
 
 @st.cache_resource
 def load_legacy_components():
-    # Load MobileNetV2 model
-    mobilenet_model = MobileNetV2(weights="imagenet")
-    mobilenet_model = Model(inputs=mobilenet_model.inputs, outputs=mobilenet_model.layers[-2].output)
+    try:
+        from tensorflow.keras.models import Model
+        from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
+        import tensorflow as tf
 
-    # Load your trained model
-    model = tf.keras.models.load_model('mymodel.h5')
+        mobilenet_model = MobileNetV2(weights="imagenet")
+        mobilenet_model = Model(inputs=mobilenet_model.inputs, outputs=mobilenet_model.layers[-2].output)
 
-    # Load the tokenizer
-    with open('tokenizer.pkl', 'rb') as tokenizer_file:
-        tokenizer = pickle.load(tokenizer_file)
+        model = tf.keras.models.load_model('mymodel.h5')
 
-    return mobilenet_model, model, tokenizer
+        with open('tokenizer.pkl', 'rb') as tokenizer_file:
+            tokenizer = pickle.load(tokenizer_file)
+
+        return mobilenet_model, model, tokenizer
+    except Exception:
+        return None, None, None
 
 # Initialize legacy components (not used for inference but present per requirement)
 legacy_mobilenet, legacy_model, legacy_tokenizer = load_legacy_components()
